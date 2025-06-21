@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Toko Komputer</title>
+  <!-- Google Fonts: Poppins untuk tampilan modern -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Menggunakan font Poppins di seluruh body */
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+    /* Sembunyikan elemen secara default untuk tab */
+    .tab-pane {
+      display: none;
+    }
+    .tab-pane.active {
+      display: block;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+  <div class="container mx-auto p-4 max-w-7xl flex-grow">
+    <header class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-6 md:p-8 rounded-xl shadow-lg mb-8 text-center">
+      <h1 class="text-4xl md:text-5xl font-extrabold leading-tight mb-2">📊 Dashboard Toko Komputer</h1>
+      <p class="text-lg md:text-xl opacity-90">
+        Pusat kendali operasional dan wawasan data bisnis Anda.
+      </p>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="bg-white p-2 rounded-xl shadow-md mb-8">
+      <ul class="flex flex-wrap justify-center space-x-0 sm:space-x-2 text-sm md:text-base font-semibold" id="dashboard-tabs">
+        <li class="flex-grow sm:flex-grow-0 text-center"><a class="tab-link active block py-2 px-3 sm:px-4 rounded-lg hover:bg-gray-100 transition-colors duration-200" href="#overview">Ringkasan</a></li>
+        <li class="flex-grow sm:flex-grow-0 text-center"><a class="tab-link block py-2 px-3 sm:px-4 rounded-lg hover:bg-gray-100 transition-colors duration-200" href="#produk">Produk</a></li>
+        <li class="flex-grow sm:flex-grow-0 text-center"><a class="tab-link block py-2 px-3 sm:px-4 rounded-lg hover:bg-gray-100 transition-colors duration-200" href="#pelanggan">Pelanggan</a></li>
+        <li class="flex-grow sm:flex-grow-0 text-center"><a class="tab-link block py-2 px-3 sm:px-4 rounded-lg hover:bg-gray-100 transition-colors duration-200" href="#pesanan">Pesanan</a></li>
+        <li class="flex-grow sm:flex-grow-0 text-center"><a class="tab-link block py-2 px-3 sm:px-4 rounded-lg hover:bg-gray-100 transition-colors duration-200" href="#pengiriman">Pengiriman</a></li>
+        <li class="flex-grow sm:flex-grow-0 text-center"><a class="tab-link block py-2 px-3 sm:px-4 rounded-lg hover:bg-gray-100 transition-colors duration-200" href="#rating">Rating</a></li>
+        <li class="flex-grow sm:flex-grow-0 text-center"><a class="tab-link block py-2 px-3 sm:px-4 rounded-lg hover:bg-gray-100 transition-colors duration-200" href="#supplier">Supplier</a></li>
+        <li class="flex-grow sm:flex-grow-0 text-center"><a class="tab-link block py-2 px-3 sm:px-4 rounded-lg hover:bg-gray-100 transition-colors duration-200" href="#karyawan">Karyawan</a></li>
+      </ul>
+    </nav>
+
+    <!-- Tab Contents -->
+    <div class="tab-content bg-white p-6 md:p-8 rounded-xl shadow-lg">
+
+      <!-- Ringkasan / Overview Dashboard -->
+      <div class="tab-pane active" id="overview">
+        <h2 class="text-3xl font-semibold text-gray-800 mb-6 text-center">Analisis & Statistik Bisnis</h2>
+    
+        <div id="stats-cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <div class="bg-gray-50 p-6 rounded-lg shadow-md text-center col-span-full">
+                <p class="text-gray-500">Memuat statistik...</p>
+            </div>
+        </div>
+    
+        <hr class="my-8"> <h2 class="text-3xl font-semibold text-gray-800 mb-6 text-center">Visualisasi Data</h2>
+    
+        <div id="charts-container" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="bg-gray-50 p-6 rounded-lg shadow-md text-center col-span-full">
+                <p class="text-gray-500">Memuat grafik...</p>
+            </div>
+        </div>
+    
+        <div class="text-center text-gray-600 text-sm">
+            <p>Data terbaru ditarik langsung dari API Anda.</p>
+        </div>
+    </div>
+
+      <!-- Produk -->
+      <div class="tab-pane" id="produk">
+        <h2 class="text-3xl font-semibold text-blue-700 mb-6 text-center">📦 Manajemen Produk</h2>
+        <section class="mb-8 p-6 bg-blue-50 rounded-lg shadow-inner">
+          <h3 class="text-2xl font-medium text-blue-800 mb-4">Tambah Produk Baru</h3>
+          <form id="form-produk" class="space-y-4">
+            <div>
+              <label for="nama_produk" class="block text-gray-700 text-sm font-medium mb-1">Nama Produk:</label>
+              <input type="text" id="nama_produk" placeholder="Nama Produk" required
+                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+            <div>
+              <label for="brand" class="block text-gray-700 text-sm font-medium mb-1">Brand:</label>
+              <input type="text" id="brand" placeholder="Brand" required
+                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+            <div>
+              <label for="harga" class="block text-gray-700 text-sm font-medium mb-1">Harga (IDR):</label>
+              <input type="number" id="harga" placeholder="Harga" required
+                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+            <div>
+              <label for="id_sub_kategori" class="block text-gray-700 text-sm font-medium mb-1">ID Sub Kategori:</label>
+              <input type="number" id="id_sub_kategori" placeholder="ID Sub Kategori" required
+                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+            <div>
+              <label for="id_supplier_produk" class="block text-gray-700 text-sm font-medium mb-1">ID Supplier:</label>
+              <input type="number" id="id_supplier_produk" placeholder="ID Supplier" required
+                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+            <button type="submit"
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-200">
+              Tambah Produk
+            </button>
+          </form>
+        </section>
+
+        <hr class="my-8 border-gray-200">
+
+        <h3 class="text-2xl font-medium text-blue-800 mb-4 text-center">Daftar Semua Produk</h3>
+        <div id="list-produk" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Daftar produk akan dimuat di sini -->
+          <div class="bg-gray-50 p-4 rounded-lg text-gray-500 text-center col-span-full">Memuat produk...</div>
+        </div>
+      </div>
+
+      <!-- Pelanggan -->
+      <div class="tab-pane" id="pelanggan">
+        <h2 class="text-3xl font-semibold text-purple-700 mb-6 text-center">👤 Manajemen Pelanggan</h2>
+        <section class="mb-8 p-6 bg-purple-50 rounded-lg shadow-inner">
+          <h3 class="text-2xl font-medium text-purple-800 mb-4">Tambah Pelanggan Baru</h3>
+          <form id="form-pelanggan" class="space-y-4">
+            <div>
+              <label for="nama_pelanggan" class="block text-gray-700 text-sm font-medium mb-1">Nama Pelanggan:</label>
+              <input type="text" id="nama_pelanggan" placeholder="Nama Pelanggan" required
+                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400">
+            </div>
+            <div>
+              <label for="email" class="block text-gray-700 text-sm font-medium mb-1">Email:</label>
+              <input type="email" id="email" placeholder="Email" required
+                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400">
+            </div>
+            <div>
+              <label for="nomor_telepon_pelanggan" class="block text-gray-700 text-sm font-medium mb-1">Nomor Telepon:</label>
+              <input type="text" id="nomor_telepon_pelanggan" placeholder="Nomor Telepon" required
+                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400">
+            </div>
+            <div>
+              <label for="alamat_pelanggan" class="block text-gray-700 text-sm font-medium mb-1">Alamat:</label>
+              <textarea id="alamat_pelanggan" placeholder="Alamat" required rows="3"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400 resize-y"></textarea>
+            </div>
+            <button type="submit"
+                    class="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-200">
+              Tambah Pelanggan
+            </button>
+          </form>
+        </section>
+
+        <hr class="my-8 border-gray-200">
+
+        <h3 class="text-2xl font-medium text-purple-800 mb-4 text-center">Daftar Semua Pelanggan</h3>
+        <div id="list-pelanggan" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Daftar pelanggan akan dimuat di sini -->
+          <div class="bg-gray-50 p-4 rounded-lg text-gray-500 text-center col-span-full">Memuat pelanggan...</div>
+        </div>
+      </div>
+
+      <!-- Pesanan -->
+      <div class="tab-pane" id="pesanan">
+        <h2 class="text-3xl font-semibold text-teal-700 mb-6 text-center">🛒 Manajemen Pesanan</h2>
+        <section class="mb-8 p-6 bg-teal-50 rounded-lg shadow-inner">
+          <h3 class="text-2xl font-medium text-teal-800 mb-4">Tambah Pesanan Baru</h3>
+          <form id="form-pesanan" class="space-y-4">
+            <div>
+              <label for="id_pelanggan_pesanan" class="block text-gray-700 text-sm font-medium mb-1">ID Pelanggan:</label>
+              <input type="number" id="id_pelanggan_pesanan" placeholder="ID Pelanggan" required
+                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-400">
+            </div>
+            <div>
+              <label for="tanggal_pesanan" class="block text-gray-700 text-sm font-medium mb-1">Tanggal Pesanan:</label>
+              <input type="date" id="tanggal_pesanan" required
+                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-400">
+            </div>
+            <div>
+              <label for="total_pesanan" class="block text-gray-700 text-sm font-medium mb-1">Total Pesanan (IDR):</label>
+              <input type="number" id="total_pesanan" placeholder="Total Pesanan" required
+                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-400">
+            </div>
+            <button type="submit"
+                    class="w-full bg-teal-600 hover:bg-teal-700 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-200">
+              Tambah Pesanan
+            </button>
+          </form>
+        </section>
+
+        <hr class="my-8 border-gray-200">
+
+        <h3 class="text-2xl font-medium text-teal-800 mb-4 text-center">Daftar Semua Pesanan</h3>
+        <div id="list-pesanan" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Daftar pesanan akan dimuat di sini -->
+          <div class="bg-gray-50 p-4 rounded-lg text-gray-500 text-center col-span-full">Memuat pesanan...</div>
+        </div>
+      </div>
+
+      <!-- Pengiriman -->
+      <div class="tab-pane" id="pengiriman">
+        <h2 class="text-3xl font-semibold text-indigo-700 mb-6 text-center">🚚 Manajemen Pengiriman</h2>
+        <section class="mb-8 p-6 bg-indigo-50 rounded-lg shadow-inner">
+          <h3 class="text-2xl font-medium text-indigo-800 mb-4">Tambah Data Pengiriman</h3>
+          <form id="form-pengiriman" class="space-y-4">
+            <div>
+              <label for="id_pesanan_pengiriman" class="block text-gray-700 text-sm font-medium mb-1">ID Pesanan:</label>
+              <input type="number" id="id_pesanan_pengiriman" placeholder="ID Pesanan" required
+                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400">
+            </div>
+            <div>
+              <label for="kurir" class="block text-gray-700 text-sm font-medium mb-1">Kurir:</label>
+              <input type="text" id="kurir" placeholder="Kurir" required
+                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400">
+            </div>
+            <div>
+              <label for="no_resi" class="block text-gray-700 text-sm font-medium mb-1">No Resi:</label>
+              <input type="text" id="no_resi" placeholder="No Resi" required
+                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400">
+            </div>
+            <div>
+              <label for="status_pengiriman" class="block text-gray-700 text-sm font-medium mb-1">Status Pengiriman:</label>
+              <select id="status_pengiriman" required
+                      class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400">
+                <option value="proses">Proses</option>
+                <option value="dikirim">Dikirim</option>
+                <option value="selesai">Selesai</option>
+              </select>
+            </div>
+            <div>
+              <label for="tanggal_kirim" class="block text-gray-700 text-sm font-medium mb-1">Tanggal Kirim:</label>
+              <input type="date" id="tanggal_kirim" required
+                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400">
+            </div>
+            <div>
+              <label for="id_karyawan_pengiriman" class="block text-gray-700 text-sm font-medium mb-1">ID Karyawan (opsional):</label>
+              <input type="number" id="id_karyawan_pengiriman" placeholder="ID Karyawan"
+                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400">
+            </div>
+            <button type="submit"
+                    class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-200">
+              Tambah Pengiriman
+            </button>
+          </form>
+        </section>
+
+        <hr class="my-8 border-gray-200">
+
+        <h3 class="text-2xl font-medium text-indigo-800 mb-4 text-center">Daftar Semua Pengiriman</h3>
+        <div id="list-pengiriman" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Daftar pengiriman akan dimuat di sini -->
+          <div class="bg-gray-50 p-4 rounded-lg text-gray-500 text-center col-span-full">Memuat pengiriman...</div>
+        </div>
+      </div>
+
+      <!-- Rating -->
+      <div class="tab-pane" id="rating">
+        <h2 class="text-3xl font-semibold text-purple-700 mb-6 text-center">⭐ Manajemen Rating Pembelanjaan</h2>
+        <section class="mb-8 p-6 bg-purple-50 rounded-lg shadow-inner">
+          <h3 class="text-2xl font-medium text-purple-800 mb-4">Tambah Rating Baru</h3>
+          <form id="form-rating" class="space-y-4">
+            <div>
+              <label for="id_pesanan_rating" class="block text-gray-700 text-sm font-medium mb-1">ID Pesanan:</label>
+              <input type="number" id="id_pesanan_rating" placeholder="ID Pesanan" required
+                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400">
+            </div>
+            <div>
+              <label for="id_pelanggan_rating" class="block text-gray-700 text-sm font-medium mb-1">ID Pelanggan:</label>
+              <input type="number" id="id_pelanggan_rating" placeholder="ID Pelanggan" required
+                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400">
+            </div>
+            <div>
+              <label for="rating_belanja" class="block text-gray-700 text-sm font-medium mb-1">Rating (1-5):</label>
+              <input type="number" id="rating_belanja" min="1" max="5" placeholder="Rating 1-5" required
+                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400">
+            </div>
+            <div>
+              <label for="komentar" class="block text-gray-700 text-sm font-medium mb-1">Komentar (opsional):</label>
+              <textarea id="komentar" placeholder="Komentar" rows="3"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400 resize-y"></textarea>
+            </div>
+            <button type="submit"
+                    class="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-200">
+              Kirim Rating
+            </button>
+          </form>
+        </section>
+
+        <hr class="my-8 border-gray-200">
+
+        <h3 class="text-2xl font-medium text-purple-800 mb-4 text-center">Daftar Semua Rating</h3>
+        <div id="list-rating" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Daftar rating akan dimuat di sini -->
+          <div class="bg-gray-50 p-4 rounded-lg text-gray-500 text-center col-span-full">Memuat rating...</div>
+        </div>
+      </div>
+
+      <!-- Supplier -->
+      <div class="tab-pane" id="supplier">
+        <h2 class="text-3xl font-semibold text-indigo-700 mb-6 text-center">🏢 Manajemen Supplier</h2>
+        <section class="mb-8 p-6 bg-indigo-50 rounded-lg shadow-inner">
+          <h3 class="text-2xl font-medium text-indigo-800 mb-4">Tambah Supplier Baru</h3>
+          <form id="form-supplier" class="space-y-4">
+            <div>
+              <label for="nama_supplier" class="block text-gray-700 text-sm font-medium mb-1">Nama Supplier:</label>
+              <input type="text" id="nama_supplier" placeholder="Nama Supplier" required
+                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400">
+            </div>
+            <div>
+              <label for="alamat_supplier" class="block text-gray-700 text-sm font-medium mb-1">Alamat:</label>
+              <textarea id="alamat_supplier" placeholder="Alamat" required rows="3"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400 resize-y"></textarea>
+            </div>
+            <div>
+              <label for="kontak_supplier" class="block text-gray-700 text-sm font-medium mb-1">Kontak:</label>
+              <input type="text" id="kontak_supplier" placeholder="Kontak" required
+                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400">
+            </div>
+            <button type="submit"
+                    class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-200">
+              Tambah Supplier
+            </button>
+          </form>
+        </section>
+
+        <hr class="my-8 border-gray-200">
+
+        <h3 class="text-2xl font-medium text-indigo-800 mb-4 text-center">Daftar Semua Supplier</h3>
+        <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4 mb-6">
+          <input type="text" id="filter-nama-supplier" placeholder="Cari nama supplier..."
+                 class="w-full sm:w-auto flex-grow px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-400">
+          <button onclick="loadSupplier()"
+                  class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-200">
+            Cari / Refresh
+          </button>
+        </div>
+        <div id="list-supplier" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Daftar supplier akan dimuat di sini -->
+          <div class="bg-gray-50 p-4 rounded-lg text-gray-500 text-center col-span-full">Memuat supplier...</div>
+        </div>
+      </div>
+
+      <!-- Karyawan -->
+      <div class="tab-pane" id="karyawan">
+        <h2 class="text-3xl font-semibold text-red-700 mb-6 text-center">🧑‍💼 Manajemen Karyawan</h2>
+        <section class="mb-8 p-6 bg-red-50 rounded-lg shadow-inner">
+          <h3 class="text-2xl font-medium text-red-800 mb-4">Tambah Karyawan Baru</h3>
+          <form id="form-karyawan" class="space-y-4">
+            <div>
+              <label for="nama_karyawan" class="block text-gray-700 text-sm font-medium mb-1">Nama Lengkap:</label>
+              <input type="text" id="nama_karyawan" placeholder="Nama Lengkap Karyawan" required
+                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-400">
+            </div>
+            <div>
+              <label for="jabatan" class="block text-gray-700 text-sm font-medium mb-1">Jabatan:</label>
+              <input type="text" id="jabatan" placeholder="Jabatan" required
+                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-400">
+            </div>
+            <div>
+              <label for="nomor_telepon_karyawan" class="block text-gray-700 text-sm font-medium mb-1">Nomor Telepon:</label>
+              <input type="text" id="nomor_telepon_karyawan" placeholder="Nomor Telepon" required
+                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-400">
+            </div>
+            <button type="submit"
+                    class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-200">
+              Tambah Karyawan
+            </button>
+          </form>
+        </section>
+
+        <hr class="my-8 border-gray-200">
+
+        <h3 class="text-2xl font-medium text-red-800 mb-4 text-center">Daftar Semua Karyawan</h3>
+        <div id="list-karyawan" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Daftar karyawan akan dimuat di sini -->
+          <div class="bg-gray-50 p-4 rounded-lg text-gray-500 text-center col-span-full">Memuat karyawan...</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="text-center text-gray-500 text-sm py-4 mt-8">
+    &copy; 2025 Dashboard Toko Komputer. Dibuat dengan ✨ oleh Karin.
+  </footer>
+
+  <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+# Abaikan file config pribadi
+.env
+config.ini
+
+# Abaikan file log
+*.log
+
+# Abaikan folder build
+__pycache__/
+node_modules/
+dist/
+build/
+
+# Abaikan file database lokal
+*.sqlite3
+*.db
