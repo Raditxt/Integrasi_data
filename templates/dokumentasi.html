@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SellEase API Documentation</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+    code, pre { background-color: #f4f4f4; padding: 5px; border-radius: 4px; display: block; margin: 10px 0; }
+    h1, h2 { color: #333; }
+    table { border-collapse: collapse; width: 100%; margin-top: 10px; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background-color: #f2f2f2; }
+  </style>
+</head>
+<body>
+  <h1>SellEase API Documentation</h1>
+
+  <h2>GET /dashboard/stats</h2>
+  <p>Menampilkan statistik utama untuk dashboard admin.</p>
+
+  <h3>Method</h3>
+  <code>GET</code>
+
+  <h3>Parameters</h3>
+  <p>Tidak ada parameter.</p>
+
+  <h3>Contoh Request</h3>
+  <pre>GET /dashboard/stats HTTP/1.1
+Host: your-api.com</pre>
+
+  <h3>Contoh Response (200 OK)</h3>
+  <pre>{
+  "total_products": 120,
+  "total_customers": 340,
+  "total_orders": 567,
+  "avg_rating": 4.3,
+  "total_suppliers": 22,
+  "total_employees": 15
+}</pre>
+
+  <h3>Contoh Response (500 Error)</h3>
+  <pre>{
+  "status": "error",
+  "message": "penjelasan error dari sistem"
+}</pre>
+
+  <h3>Penjelasan Field</h3>
+  <table>
+    <tr>
+      <th>Field</th>
+      <th>Tipe</th>
+      <th>Deskripsi</th>
+    </tr>
+    <tr><td>total_products</td><td>int</td><td>Total produk yang tersedia</td></tr>
+    <tr><td>total_customers</td><td>int</td><td>Total pelanggan</td></tr>
+    <tr><td>total_orders</td><td>int</td><td>Total pesanan</td></tr>
+    <tr><td>avg_rating</td><td>float</td><td>Rata-rata rating pembelanjaan</td></tr>
+    <tr><td>total_suppliers</td><td>int</td><td>Total supplier</td></tr>
+    <tr><td>total_employees</td><td>int</td><td>Total karyawan</td></tr>
+  </table>
+</body>
+</html>

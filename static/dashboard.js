@@ -356,8 +356,6 @@ document.addEventListener('DOMContentLoaded', loadStatistics);
             <p class="text-xs text-gray-500">Supplier ID: <span class="font-mono">${p.id_supplier || 'N/A'}</span></p>
           </div>
           <div class="mt-4 flex justify-end space-x-2">
-            <button class="bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-1.5 px-3 rounded-md text-sm transition" data-id="${p.id_produk || ''}" onclick="alert('Edit Produk ID: ' + this.dataset.id)">Edit</button>
-            <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1.5 px-3 rounded-md text-sm transition" data-id="${p.id_produk || ''}" onclick="deleteProduk(this.dataset.id)">Hapus</button>
           </div>
         `;
         list.appendChild(card);
@@ -365,16 +363,6 @@ document.addEventListener('DOMContentLoaded', loadStatistics);
     } catch (error) {
       list.innerHTML = `<div class="bg-red-100 border border-red-400 text-red-700 p-4 rounded relative col-span-full" role="alert">Gagal memuat produk.</div>`;
     }
-  }
-  
-  async function deleteProduk(id) {
-    if (!id || !confirm(`Yakin ingin menghapus Produk ID: ${id}?`)) return;
-    try {
-      const data = await apiFetch(`/produk/${id}`, { method: 'DELETE' });
-      showToast(data.message || 'Produk berhasil dihapus!', 'success');
-      loadProduk();
-      loadStatistics();
-    } catch (error) {} // Error ditangani di apiFetch
   }
   
   // ============================== PELANGGAN ==============================
@@ -430,8 +418,6 @@ document.addEventListener('DOMContentLoaded', loadStatistics);
             <p class="text-xs text-gray-500 mt-2">Alamat: ${p.alamat || 'N/A'}</p>
           </div>
           <div class="mt-4 flex justify-end space-x-2">
-            <button class="bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-1.5 px-3 rounded-md text-sm transition" data-id="${p.id_pelanggan || ''}" onclick="alert('Edit Pelanggan ID: ' + this.dataset.id)">Edit</button>
-            <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1.5 px-3 rounded-md text-sm transition" data-id="${p.id_pelanggan || ''}" onclick="deletePelanggan(this.dataset.id)">Hapus</button>
           </div>
         `;
         list.appendChild(card);
@@ -441,15 +427,7 @@ document.addEventListener('DOMContentLoaded', loadStatistics);
     }
   }
   
-  async function deletePelanggan(id) {
-    if (!id || !confirm(`Yakin ingin menghapus Pelanggan ID: ${id}?`)) return;
-    try {
-      const data = await apiFetch(`/pelanggan/${id}`, { method: 'DELETE' });
-      showToast(data.message || 'Pelanggan berhasil dihapus!', 'success');
-      loadPelanggan();
-      loadStatistics();
-    } catch (error) {}
-  }
+
   
   
   // ============================== PESANAN ==============================
@@ -503,8 +481,6 @@ document.addEventListener('DOMContentLoaded', loadStatistics);
             <p class="text-xs text-gray-500">Tanggal: ${p.tanggal_pesanan || 'N/A'}</p>
           </div>
           <div class="mt-4 flex justify-end space-x-2">
-            <button class="bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-1.5 px-3 rounded-md text-sm transition" data-id="${p.id_pesanan || ''}" onclick="alert('Edit Pesanan ID: ' + this.dataset.id)">Edit</button>
-            <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1.5 px-3 rounded-md text-sm transition" data-id="${p.id_pesanan || ''}" onclick="deletePesanan(this.dataset.id)">Hapus</button>
           </div>
         `;
         list.appendChild(card);
@@ -513,17 +489,6 @@ document.addEventListener('DOMContentLoaded', loadStatistics);
       list.innerHTML = `<div class="bg-red-100 border border-red-400 text-red-700 p-4 rounded relative col-span-full" role="alert">Gagal memuat pesanan.</div>`;
     }
   }
-  
-  async function deletePesanan(id) {
-    if (!id || !confirm(`Yakin ingin menghapus Pesanan ID: ${id}?`)) return;
-    try {
-      const data = await apiFetch(`/pesanan/${id}`, { method: 'DELETE' });
-      showToast(data.message || 'Pesanan berhasil dihapus!', 'success');
-      loadPesanan();
-      loadStatistics();
-    } catch (error) {}
-  }
-  
   
   // ============================== PENGIRIMAN ==============================
   document.getElementById('form-pengiriman').addEventListener('submit', async function (e) {
@@ -583,8 +548,6 @@ document.addEventListener('DOMContentLoaded', loadStatistics);
             <p class="text-xs text-gray-500">ID Karyawan: ${p.id_karyawan || 'Tidak ada'}</p>
           </div>
           <div class="mt-4 flex justify-end space-x-2">
-            <button class="bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-1.5 px-3 rounded-md text-sm transition" data-id="${p.id_pengiriman || ''}" onclick="alert('Edit Pengiriman ID: ' + this.dataset.id)">Edit</button>
-            <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1.5 px-3 rounded-md text-sm transition" data-id="${p.id_pengiriman || ''}" onclick="deletePengiriman(this.dataset.id)">Hapus</button>
           </div>
         `;
         list.appendChild(card);
@@ -592,16 +555,6 @@ document.addEventListener('DOMContentLoaded', loadStatistics);
     } catch (error) {
       list.innerHTML = `<div class="bg-red-100 border border-red-400 text-red-700 p-4 rounded relative col-span-full" role="alert">Gagal memuat pengiriman.</div>`;
     }
-  }
-  
-  async function deletePengiriman(id) {
-    if (!id || !confirm(`Yakin ingin menghapus Pengiriman ID: ${id}?`)) return;
-    try {
-      const data = await apiFetch(`/pengiriman/${id}`, { method: 'DELETE' });
-      showToast(data.message || 'Pengiriman berhasil dihapus!', 'success');
-      loadPengiriman();
-      loadStatistics();
-    } catch (error) {}
   }
   
   
@@ -666,8 +619,6 @@ document.addEventListener('DOMContentLoaded', loadStatistics);
             <p class="text-xs text-gray-700 italic">${r.komentar || 'Tidak ada komentar.'}</p>
           </div>
           <div class="mt-4 flex justify-end space-x-2">
-            <button class="bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-1.5 px-3 rounded-md text-sm transition" data-id-pesanan="${r.id_pesanan || ''}" data-id-pelanggan="${r.id_pelanggan || ''}" onclick="alert('Edit Rating Pesanan ID: ' + this.dataset.idPesanan + ' Pelanggan ID: ' + this.dataset.idPelanggan)">Edit</button>
-            <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1.5 px-3 rounded-md text-sm transition" data-id-pesanan="${r.id_pesanan || ''}" data-id-pelanggan="${r.id_pelanggan || ''}" onclick="deleteRating(this.dataset.idPesanan, this.dataset.idPelanggan)">Hapus</button>
           </div>
         `;
         list.appendChild(card);
@@ -677,15 +628,7 @@ document.addEventListener('DOMContentLoaded', loadStatistics);
     }
   }
   
-  async function deleteRating(idPesanan, idPelanggan) {
-    if (!idPesanan || !idPelanggan || !confirm(`Yakin ingin menghapus Rating untuk Pesanan ID: ${idPesanan} oleh Pelanggan ID: ${idPelanggan}?`)) return;
-    try {
-      const data = await apiFetch(`/rating/${idPesanan}/${idPelanggan}`, { method: 'DELETE' });
-      showToast(data.message || 'Rating berhasil dihapus!', 'success');
-      loadRating();
-      loadStatistics();
-    } catch (error) {}
-  }
+
   
   
   // ============================== SUPPLIER ==============================
@@ -741,8 +684,6 @@ document.addEventListener('DOMContentLoaded', loadStatistics);
             <p class="text-sm text-gray-600">Kontak: <span class="font-mono">${s.kontak || 'N/A'}</span></p>
           </div>
           <div class="mt-4 flex justify-end space-x-2">
-            <button class="bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-1.5 px-3 rounded-md text-sm transition" data-id="${s.id_supplier || ''}" onclick="alert('Edit Supplier ID: ' + this.dataset.id)">Edit</button>
-            <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1.5 px-3 rounded-md text-sm transition" data-id="${s.id_supplier || ''}" onclick="deleteSupplier(this.dataset.id)">Hapus</button>
           </div>
         `;
         list.appendChild(card);
@@ -752,15 +693,7 @@ document.addEventListener('DOMContentLoaded', loadStatistics);
     }
   }
   
-  async function deleteSupplier(id) {
-    if (!id || !confirm(`Yakin ingin menghapus Supplier ID: ${id}?`)) return;
-    try {
-      const data = await apiFetch(`/supplier/${id}`, { method: 'DELETE' });
-      showToast(data.message || 'Supplier berhasil dihapus!', 'success');
-      loadSupplier();
-      loadStatistics();
-    } catch (error) {}
-  }
+
   
   
   // ============================== KARYAWAN ==============================
@@ -814,8 +747,6 @@ document.addEventListener('DOMContentLoaded', loadStatistics);
             <p class="text-sm text-gray-600">Telepon: <span class="font-mono">${k.nomor_telepon || 'N/A'}</span></p>
           </div>
           <div class="mt-4 flex justify-end space-x-2">
-            <button class="bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-1.5 px-3 rounded-md text-sm transition" data-id="${k.id_karyawan || ''}" onclick="alert('Edit Karyawan ID: ' + this.dataset.id)">Edit</button>
-            <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-1.5 px-3 rounded-md text-sm transition" data-id="${k.id_karyawan || ''}" onclick="deleteKaryawan(this.dataset.id)">Hapus</button>
           </div>
         `;
         list.appendChild(card);
@@ -824,17 +755,6 @@ document.addEventListener('DOMContentLoaded', loadStatistics);
       list.innerHTML = `<div class="bg-red-100 border border-red-400 text-red-700 p-4 rounded relative col-span-full" role="alert">Gagal memuat karyawan.</div>`;
     }
   }
-  
-  async function deleteKaryawan(id) {
-    if (!id || !confirm(`Yakin ingin menghapus Karyawan ID: ${id}?`)) return;
-    try {
-      const data = await apiFetch(`/karyawan/${id}`, { method: 'DELETE' });
-      showToast(data.message || 'Karyawan berhasil dihapus!', 'success');
-      loadKaryawan();
-      loadStatistics();
-    } catch (error) {}
-  }
-  
   
   // --- Pengelolaan Tab dan Inisialisasi ---
   
