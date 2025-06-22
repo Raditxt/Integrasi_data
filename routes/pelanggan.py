@@ -33,15 +33,31 @@ def tambah_pelanggan():
 
     try:
         cur = mysql.connection.cursor()
+
+        # 🔍 Cek apakah email atau nomor sudah ada
+        cur.execute("""
+            SELECT * FROM pelanggan
+            WHERE email = %s OR nomor_telepon = %s
+        """, (email, nomor))
+        duplikat = cur.fetchone()
+
+        if duplikat:
+            return jsonify({
+                'status': 'error',
+                'message': 'Pelanggan dengan email atau nomor telepon ini sudah terdaftar.'
+            }), 409
+
+        # ✅ Insert jika tidak duplikat
         cur.execute("""
             INSERT INTO pelanggan (nama_pelanggan, email, nomor_telepon, alamat)
             VALUES (%s, %s, %s, %s)
         """, (nama, email, nomor, alamat))
         mysql.connection.commit()
         return jsonify({'status': 'success', 'message': 'Pelanggan berhasil ditambahkan'}), 201
+
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)}), 500
-    
+ 
 @pelanggan_bp.route('/pelanggan', methods=['GET'])
 def semua_pelanggan():
     mysql = current_app.mysql

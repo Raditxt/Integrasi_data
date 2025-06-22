@@ -3,6 +3,7 @@ from flask import Blueprint, request, jsonify, current_app
 supplier_bp = Blueprint('supplier', __name__)
 
 # Tambah Supplier
+# Tambah Supplier
 @supplier_bp.route('/supplier', methods=['POST'])
 def tambah_supplier():
     mysql = current_app.mysql
@@ -17,6 +18,18 @@ def tambah_supplier():
 
     try:
         cur = mysql.connection.cursor()
+
+        # 🔍 Cek duplikat berdasarkan nama dan kontak
+        cur.execute("""
+            SELECT COUNT(*) FROM supplier
+            WHERE nama_supplier = %s AND kontak = %s
+        """, (nama, kontak))
+        exists = cur.fetchone()[0]
+
+        if exists > 0:
+            return jsonify({'status': 'error', 'message': 'Supplier dengan nama dan kontak ini sudah ada'}), 409
+
+        # Lanjut insert jika tidak duplikat
         cur.execute("""
             INSERT INTO supplier (nama_supplier, alamat, kontak)
             VALUES (%s, %s, %s)

@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify, current_app
 
 karyawan_bp = Blueprint('karyawan', __name__)
 
-# Tambah karyawan
+# Tambah karyawan dengan validasi duplikat
 @karyawan_bp.route('/karyawan', methods=['POST'])
 def tambah_karyawan():
     mysql = current_app.mysql
@@ -17,12 +17,24 @@ def tambah_karyawan():
 
     try:
         cur = mysql.connection.cursor()
+        
+        # 🔍 Cek duplikat berdasarkan nama + nomor
+        cur.execute("""
+            SELECT COUNT(*) FROM karyawan
+            WHERE nama_karyawan = %s AND nomor_telepon = %s
+        """, (nama, nomor))
+        if cur.fetchone()[0] > 0:
+            return jsonify({'status': 'error', 'message': 'Karyawan dengan nama dan nomor ini sudah ada'}), 400
+
+        # ✅ Insert jika tidak duplikat
         cur.execute("""
             INSERT INTO karyawan (nama_karyawan, jabatan, nomor_telepon)
             VALUES (%s, %s, %s)
         """, (nama, jabatan, nomor))
         mysql.connection.commit()
+
         return jsonify({'status': 'success', 'message': 'Karyawan berhasil ditambahkan'}), 201
+
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)}), 500
 

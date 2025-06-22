@@ -17,12 +17,25 @@ def tambah_rating():
 
     try:
         cur = mysql.connection.cursor()
+
+        # 🔍 Cek duplikat rating
+        cur.execute("""
+            SELECT COUNT(*) FROM rating_pembelanjaan 
+            WHERE id_pesanan = %s AND id_pelanggan = %s
+        """, (id_pesanan, id_pelanggan))
+        exists = cur.fetchone()[0]
+        if exists > 0:
+            return jsonify({'status': 'error', 'message': 'Pelanggan sudah memberikan rating untuk pesanan ini'}), 409
+
+        # ✅ Simpan rating
         cur.execute("""
             INSERT INTO rating_pembelanjaan (id_pesanan, id_pelanggan, rating_belanja, komentar)
             VALUES (%s, %s, %s, %s)
         """, (id_pesanan, id_pelanggan, rating_belanja, komentar))
         mysql.connection.commit()
+
         return jsonify({'status': 'success', 'message': 'Rating berhasil ditambahkan'}), 201
+
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)}), 500
 

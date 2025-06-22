@@ -42,6 +42,16 @@ def tambah_produk():
 
     try:
         cur = mysql.connection.cursor()
+
+        # Cek duplikat berdasarkan nama_produk dan brand
+        cur.execute("""
+            SELECT COUNT(*) FROM produk
+            WHERE nama_produk = %s AND brand = %s
+        """, (nama_produk, brand))
+        if cur.fetchone()[0] > 0:
+            return jsonify({'status': 'error', 'message': 'Produk dengan nama dan brand tersebut sudah ada!'}), 409
+
+        # Jika tidak duplikat, insert
         cur.execute("""
             INSERT INTO produk (nama_produk, brand, harga, id_sub_kategori, id_supplier)
             VALUES (%s, %s, %s, %s, %s)
@@ -50,3 +60,4 @@ def tambah_produk():
         return jsonify({'status': 'success', 'message': 'Produk berhasil ditambahkan'}), 201
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)}), 500
+
