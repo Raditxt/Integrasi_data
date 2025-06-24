@@ -1,181 +1,192 @@
-# 📦 Toko Komputer - Dokumentasi API dan Frontend
+# 📦 Dokumentasi API - Sistem Manajemen Toko
 
-## 📁 Struktur Proyek
-
-```
-Integrasi_data/
-├── app.py
-├── database.py
-├── routes/
-│   ├── dashboard_stats.py
-│   ├── karyawan.py
-│   └── ... (modul lainnya)
-├── templates/
-│   └── index.html
-├── static/
-│   └── js/
-│       └── script.js
-└── ...
-```
+Dokumen ini berisi endpoint-endpoint API untuk kebutuhan frontend dan backend sistem manajemen toko. Setiap endpoint memiliki validasi duplikasi dan penanganan error yang jelas.
 
 ---
 
-## ⚙️ Konfigurasi Database (MySQL)
+## 📮 Endpoint: Pengiriman
 
-File: `database.py`
+### 🔍 Ambil semua pengiriman
 
-```python
-from flask_mysqldb import MySQL
+* **Method**: `GET`
+* **URL**: `/pengiriman`
+* **Deskripsi**: Mengambil seluruh data pengiriman.
 
-mysql = MySQL()
+### 🔍 Ambil pengiriman berdasarkan ID Pesanan
 
-def init_mysql(app):
-    app.config['MYSQL_HOST'] = 'localhost'
-    app.config['MYSQL_USER'] = 'root'
-    app.config['MYSQL_PASSWORD'] = ''
-    app.config['MYSQL_DB'] = 'toko_komputer'
-    mysql.init_app(app)
-```
+* **Method**: `GET`
+* **URL**: `/pengiriman/<id>`
+* **Deskripsi**: Mengambil data pengiriman berdasarkan `id_pesanan`.
 
----
+### ➕ Tambah Pengiriman
 
-## 🚀 Menjalankan Aplikasi
-
-File utama: `app.py`
-
-```python
-from flask import Flask, render_template
-from flask_cors import CORS
-from database import init_mysql, mysql
-
-from routes.dashboard_stats import dashboard_bp
-from routes.karyawan import karyawan_bp
-... (route lain)
-
-app = Flask(__name__)
-CORS(app)
-
-init_mysql(app)
-app.mysql = mysql
-
-app.register_blueprint(dashboard_bp)
-app.register_blueprint(karyawan_bp)
-... (blueprint lain)
-
-@app.route('/dashboard')
-def dashboard():
-    return render_template('index.html')
-
-if __name__ == '__main__':
-    app.run(debug=True)
-```
-
----
-
-## 📊 Endpoint: Statistik Dashboard
-
-**URL:** `/dashboard/stats`
-**Method:** `GET`
-**Deskripsi:** Mengembalikan statistik global untuk dashboard.
-
-**Contoh Respons:**
+* **Method**: `POST`
+* **URL**: `/pengiriman`
+* **Body**:
 
 ```json
 {
-  "total_products": 12,
-  "total_customers": 8,
-  "total_orders": 20,
-  "avg_rating": 4.3,
-  "total_suppliers": 3,
-  "total_employees": 7
+  "id_pesanan": int,
+  "kurir": string,
+  "no_resi": string,
+  "status_pengiriman": "dikirim" | "diproses" | "selesai",
+  "tanggal_kirim": date-string,
+  "id_karyawan": int|null
 }
 ```
 
-**Frontend:**
+* **Validasi**:
 
-* Fungsi `loadStatistics()` memanggil API dan menampilkan info dalam kartu dan grafik (bar & doughnut).
-* Menggunakan Chart.js dan custom toast notification untuk error/sukses.
+  * Tidak boleh ada `id_pesanan` dan `no_resi` yang sama.
 
 ---
 
-## 👤 Endpoint: Karyawan
+## 🛒 Endpoint: Pesanan
 
-### 🔹 GET `/karyawan`
+### 🔍 Ambil semua pesanan
 
-Mengambil semua data karyawan.
+* **Method**: `GET`
+* **URL**: `/pesanan`
 
-**Contoh Respons:**
+### 🔍 Ambil pesanan berdasarkan ID
 
-```json
-[
-  {
-    "id_karyawan": 1,
-    "nama_karyawan": "Radit",
-    "jabatan": "Kasir",
-    "nomor_telepon": "08123456789"
-  },
-  ...
-]
-```
+* **Method**: `GET`
+* **URL**: `/pesanan/<id>`
 
-### 🔹 POST `/karyawan`
+### ➕ Tambah Pesanan
 
-Menambahkan karyawan baru, dengan validasi duplikat berdasarkan `nama_karyawan` dan `nomor_telepon`.
-
-**Request Body (JSON):**
+* **Method**: `POST`
+* **URL**: `/pesanan`
+* **Body**:
 
 ```json
 {
-  "nama_karyawan": "Radit",
-  "jabatan": "Admin",
-  "nomor_telepon": "08123456789"
+  "id_pelanggan": int,
+  "tanggal_pesanan": date-string,
+  "total_pesanan": float
 }
 ```
 
-**Kemungkinan Respons:**
+* **Validasi**:
 
-* Sukses:
+  * Tidak boleh ada duplikat pesanan untuk pelanggan dan tanggal yang sama.
+
+---
+
+## 🧴 Endpoint: Produk
+
+### 🔍 Ambil produk (opsional filter nama/brand)
+
+* **Method**: `GET`
+* **URL**: `/produk`
+* **Query**:
+
+  * `nama`: filter nama produk
+  * `brand`: filter nama brand
+
+### ➕ Tambah Produk
+
+* **Method**: `POST`
+* **URL**: `/produk`
+* **Body**:
 
 ```json
-{ "status": "success", "message": "Karyawan berhasil ditambahkan" }
+{
+  "nama_produk": string,
+  "brand": string,
+  "harga": float,
+  "id_sub_kategori": int,
+  "id_supplier": int
+}
 ```
 
-* Duplikat:
+* **Validasi**:
+
+  * Tidak boleh ada produk dengan `nama_produk` dan `brand` yang sama.
+
+---
+
+## 🌟 Endpoint: Rating Pembelanjaan
+
+### 🔍 Ambil semua rating
+
+* **Method**: `GET`
+* **URL**: `/rating`
+
+### ➕ Tambah Rating
+
+* **Method**: `POST`
+* **URL**: `/rating`
+* **Body**:
 
 ```json
-{ "status": "error", "message": "Karyawan dengan nama dan nomor ini sudah ada" }
+{
+  "id_pesanan": int,
+  "id_pelanggan": int,
+  "rating_belanja": int (1-5),
+  "komentar": string | null
+}
 ```
 
----
+* **Validasi**:
 
-## 💻 Frontend: Karyawan
-
-### ➕ Menambah Karyawan
-
-Form dengan ID `form-karyawan` akan:
-
-* Memastikan semua field terisi.
-* Mengecek duplikat terhadap data dari endpoint GET `/karyawan`.
-* Jika valid, kirim POST request ke endpoint.
-* Menampilkan notifikasi dengan `showToast()`.
-* Mereset form dan reload daftar serta statistik.
-
-### 📋 Menampilkan Daftar Karyawan
-
-Fungsi `loadKaryawan()` akan:
-
-* Fetch data dari `/karyawan`
-* Tampilkan dalam bentuk kartu (`card`)
-* Jika kosong, tampilkan pesan "Belum ada karyawan."
+  * Satu pelanggan hanya boleh memberi rating untuk satu pesanan satu kali.
 
 ---
 
-## 📌 Catatan Tambahan
+## 🏭 Endpoint: Supplier
 
-* Semua data diakses melalui API (tidak langsung dari template/server).
-* Validasi frontend & backend dilakukan untuk ketahanan aplikasi.
-* Pastikan database `toko_komputer` dan tabel-tabel terkait telah dibuat di MySQL.
+### 🔍 Ambil Supplier (opsional filter nama)
+
+* **Method**: `GET`
+* **URL**: `/supplier`
+* **Query**:
+
+  * `nama_supplier`: filter berdasarkan nama supplier
+
+### ➕ Tambah Supplier
+
+* **Method**: `POST`
+* **URL**: `/supplier`
+* **Body**:
+
+```json
+{
+  "nama_supplier": string,
+  "alamat": string,
+  "kontak": string
+}
+```
+
+* **Validasi**:
+
+  * Tidak boleh ada supplier dengan kombinasi nama dan kontak yang sama.
 
 ---
 
-Selanjutnya kamu bisa tambahkan dokumentasi untuk modul `produk`, `pelanggan`, `pesanan`, dll. Cukup kirim potongan kodenya. 💡
+## 🔐 Keamanan & Validasi
+
+* Semua endpoint telah dilengkapi dengan pengecekan `try-except` untuk menangani error internal.
+* Validasi wajib menggunakan kombinasi `if not all([...])` untuk memastikan semua field terisi.
+* Duplikasi dicek di level database dan frontend.
+
+---
+
+## ⚙️ Teknologi
+
+* **Backend**: Flask
+* **Database**: MySQL
+* **Frontend**: JavaScript (fetch API)
+* **Style**: TailwindCSS
+
+---
+
+## 📌 Tips Implementasi
+
+* Gunakan fungsi `apiFetch` sebagai wrapper `fetch()` agar penanganan error konsisten.
+* Gunakan helper `resetForm()` dan `showToast()` untuk UX yang responsif.
+* Selalu update fungsi `loadX()` (misal `loadProduk()`, `loadSupplier()`) setelah aksi `POST`.
+
+---
+
+📄 *Dokumentasi ini dapat diperluas sesuai kebutuhan modul tambahan lain (pelanggan, karyawan, subkategori, dll).*
